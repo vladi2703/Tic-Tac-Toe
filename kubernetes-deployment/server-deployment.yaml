@@ -1,0 +1,30 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: tic-tac-toe-server
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: tic-tac-toe-server
+  template:
+    metadata:
+      labels:
+        app: tic-tac-toe-server
+    spec:
+      containers:
+      - name: server
+        image: tic-tac-toe-server:latest
+        ports:
+        - containerPort: 8080
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: tic-tac-toe-server
+spec:
+  type: LoadBalancer
+  ports:
+  - port: 8080
+  selector:
+    app: tic-tac-toe-server
