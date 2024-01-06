@@ -61,3 +61,17 @@ This project is licensed under the [MIT License](LICENSE).
 ## Acknowledgements
 
 - Special thanks to [GitHub Actions](https://github.com/features/actions) and [Trivy](https://github.com/aquasecurity/trivy) for CI/CD and security scanning tools.
+
+- Спомени бранчинг стратегията - ребейз
+- спомени защо пайплайна за докер се копи пействат джобовете - може и на стъпки, но при по-тежки контейнери ще е по-бавно
+
+- start using issues
+
+- add sql
+- add sonar
+- add snyk
+  - added open source license check
+- add docker-compose
+- add kubernetes
+- add s3
+- add terraform
