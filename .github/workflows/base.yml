@@ -46,6 +46,16 @@ jobs:
           pip install -r requirements.txt
           snyk auth ${{ secrets.SNYK_TOKEN }}
           snyk test --all-projects --exclude=Dockerfile,docker-compose.yml --severity-threshold=critical
+  gitleaks:
+    name: Check for secrets leakage
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+      - uses: gitleaks/gitleaks-action@v2
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} 
 
   # Currently sonarcloud is working automatically on every push
 
