@@ -1,0 +1,26 @@
+version: '3'
+
+services:
+  server:
+    build: ./server
+    ports:
+      - "9999:9999"
+    container_name: tic-tac-toe-server
+
+  player1:
+    build: ./client
+    environment:
+      - DISPLAY=${DISPLAY}
+    volumes:
+      - /tmp/.X11-unix:/tmp/.X11-unix
+    container_name: tic-tac-toe-player1
+    network_mode: "host"
+
+  player2:
+    build: ./client
+    environment:
+      - DISPLAY=${DISPLAY}
+    volumes:
+      - /tmp/.X11-unix:/tmp/.X11-unix
+    container_name: tic-tac-toe-player2
+    network_mode: "host"
