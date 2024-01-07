@@ -206,7 +206,7 @@ def accept_msg():
                         print("Error occurred: ", e)
 
             elif recvDataDecode == "Error":
-                print("Error occured! Try again..")
+                print("Error occured! Try again...")
 
             elif recvDataDecode == "Matrix":
                 print(recvDataDecode)
