@@ -1,0 +1,27 @@
+name: Auto Increment Tag
+
+on:
+  push:
+    branches:
+      - master
+      - auto-increment
+    paths:
+      - 'client/**'
+      - 'client-terminal/**'
+      - 'server/**'
+
+jobs:
+  auto-tag:
+    runs-on: ubuntu-latest
+    steps: 
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Get next version
+      uses: reecetech/version-increment@2023.10.1
+      id: version
+      with:
+        scheme: semver
+        increment: minor 
+
+        
