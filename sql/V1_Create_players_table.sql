@@ -1,0 +1,7 @@
+CREATE TABLE users (
+    id SERIAL PRIMARY KEY,
+    username VARCHAR(255) NOT NULL UNIQUE,
+    wins_count INT NOT NULL DEFAULT 0,
+    losses_count INT NOT NULL DEFAULT 0,
+    registration_date TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
+);
