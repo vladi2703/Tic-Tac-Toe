@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
       - name: server
-        image: tic-tac-toe-server:latest
+        image: vladisto100/tic-tac-toe-server:latest
         ports:
         - containerPort: 9999
 
