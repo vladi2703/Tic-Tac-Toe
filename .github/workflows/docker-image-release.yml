@@ -30,13 +30,13 @@ jobs:
          context: .
          file: server/Dockerfile
          push: true
-         tags: vladisto100/tic-tac-toe:server:${{ steps.tag_name.outputs.TAG_NAME }},vladisto100/tic-tac-toe:server:latest
+         tags: vladisto100/tic-tac-toe-server:${{ steps.tag_name.outputs.TAG_NAME }},vladisto100/tic-tac-toe-server:latest
       - name: Build, Scan, and Push Client Image
         uses: docker/build-push-action@v2
         with:
          context: .
          file: client/Dockerfile
          push: true
-         tags: vladisto100/tic-tac-toe:client:${{ steps.tag_name.outputs.TAG_NAME }},vladisto100/tic-tac-toe:client:latest
+         tags: vladisto100/tic-tac-toe-client:${{ steps.tag_name.outputs.TAG_NAME }},vladisto100/tic-tac-toe-client:latest
 
 
