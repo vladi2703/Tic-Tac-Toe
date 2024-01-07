@@ -1,0 +1,38 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: tic-tac-toe-player1
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: tic-tac-toe-player1
+  template:
+    metadata:
+      labels:
+        app: tic-tac-toe-player1
+    spec:
+      containers:
+      - name: player1
+        image: tic-tac-toe-player:latest
+        # Add any required environment variables or volume mounts
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: tic-tac-toe-player2
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: tic-tac-toe-player2
+  template:
+    metadata:
+      labels:
+        app: tic-tac-toe-player2
+    spec:
+      containers:
+      - name: player2
+        image: tic-tac-toe-player:latest
+        # Add any required environment variables or volume mounts
