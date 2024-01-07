@@ -8,7 +8,7 @@ on:
       - 'v*'
 
 jobs:
-  server-image:
+  build-and-push-images:
     runs-on: ubuntu-latest
     steps:
       - name: Check out the code
@@ -24,14 +24,14 @@ jobs:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
-      - name: Build, Scan, and Push Server Image
+      - name: Build and Push Server Image
         uses: docker/build-push-action@v2
         with:
          context: .
          file: server/Dockerfile
          push: true
          tags: vladisto100/tic-tac-toe-server:${{ steps.tag_name.outputs.TAG_NAME }},vladisto100/tic-tac-toe-server:latest
-      - name: Build, Scan, and Push Client Image
+      - name: Build and Push Client Image
         uses: docker/build-push-action@v2
         with:
          context: .
