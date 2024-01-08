@@ -26,7 +26,7 @@ jobs:
       run: |
         black --check .
 
-    # Codebase is awful, so we need to set a low threshold
+    # Codebase is awful, so we need to set a low threshold for pylint score (6.0)
     - name: Verify pylint score
       id: pylint-score
       run: |
