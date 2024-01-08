@@ -1,0 +1,41 @@
+name: Markdown Formatting and Checking
+
+on:
+  push:
+    branches: [ "markdown-formatting" ]
+    paths:
+      - '**/*.md'
+  pull_request:
+    paths:
+      - '**/*.md'
+
+jobs:
+  format-markdown:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out the code
+        uses: actions/checkout@v2
+
+      - name: Format Markdown files
+        uses: docker://chrisdobbins/markdown-format:latest
+        with:
+          args: ./**/*.md
+
+      - name: Commit changes
+        uses: stefanzweifel/git-auto-commit-action@v4
+        with:
+          commit_message: 'Format Markdown files'
+          file_pattern: ./**/*.md
+
+  check-markdown:
+    runs-on: ubuntu-latest
+    needs: format-markdown
+    steps:
+      - name: Check out the code
+        uses: actions/checkout@v2
+
+      - name: Check Markdown files
+        uses: avto-dev/markdown-lint@v1
+        with:
+          args: ./**/*.md
+
