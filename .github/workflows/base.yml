@@ -30,13 +30,26 @@ jobs:
         flake8 . --count --select=E9,F63,F7,F82 --show-source --statistics
         # exit-zero treats all errors as warnings. The GitHub editor is 127 chars wide
         flake8 . --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics
+
+  test-client:
+    needs: [build]
+    runs-on: ubuntu-latest
+    steps:
+    - name: Test with pytest
+      run: |
+        pytest tests
+
+  test-server:
+    needs: [build]
+    runs-on: ubuntu-latest
+    steps:
     - name: Test with pytest
       run: |
         pytest tests
     
   snyk-security:
     runs-on: ubuntu-latest
-
+    needs: [test-client, test-server]
     steps:
       - uses: actions/checkout@v3
       - name: Snyk Security Scan
@@ -46,6 +59,7 @@ jobs:
           pip install -r requirements.txt
           snyk auth ${{ secrets.SNYK_TOKEN }}
           snyk test --all-projects --exclude=Dockerfile,docker-compose.yml --severity-threshold=critical
+
   gitleaks:
     name: Check for secrets leakage
     runs-on: ubuntu-latest
