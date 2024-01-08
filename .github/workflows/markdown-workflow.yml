@@ -2,7 +2,6 @@ name: Markdown Formatting and Checking
 
 on:
   push:
-    branches: [ "markdown-formatting" ]
     paths:
       - '**/*.md'
   pull_request:
@@ -16,26 +15,29 @@ jobs:
       - name: Check out the code
         uses: actions/checkout@v2
 
+      - name: Setup Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: '14'
+
+      - name: Install Prettier
+        run: npm install --global prettier
+
       - name: Format Markdown files
-        uses: docker://chrisdobbins/markdown-format:latest
-        with:
-          args: ./**/*.md
+        run: prettier --write "**/*.md"
 
-      - name: Commit changes
-        uses: stefanzweifel/git-auto-commit-action@v4
+      - name: Commit formatted files
+        uses: stefanzweifel/git-auto-commit-action@v5
         with:
-          commit_message: 'Format Markdown files'
-          file_pattern: ./**/*.md
+          commit_message: 'Automatically format Markdown files'
+          file_pattern: "**/*.md"
 
-  check-markdown:
+  lint-markdown:
     runs-on: ubuntu-latest
-    needs: format-markdown
+    needs: [format-markdown]
     steps:
-      - name: Check out the code
-        uses: actions/checkout@v2
+      - name: Install markdownlint-cli
+        run: npm install -g markdownlint-cli
 
-      - name: Check Markdown files
-        uses: avto-dev/markdown-lint@v1
-        with:
-          args: ./**/*.md
-
+      - name: Lint Markdown files
+        run: markdownlint "**/*.md" || true

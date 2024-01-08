@@ -6,11 +6,9 @@
 ## Installing Packages
 
 - Install the following package dependencies using pip:
-
-```ps
+```bash
 pip install pygame
 ```
-
 ---
 
 ## How to Play?
@@ -38,8 +36,8 @@ docker compose down
 
 ## Screenshots
 
-|                  Player 1                  |                  Player 2                  |
-| :----------------------------------------: | :----------------------------------------: |
+|            Player 1             |            Player 2             |
+| :-----------------------------: | :-----------------------------: |
 | ![Player 1](images/Player1.png) | ![Player 2](images/Player2.png) |
 
 ### Player 1 Wins
