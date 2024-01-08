@@ -28,7 +28,7 @@ jobs:
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
       - name: Build, Scan, and Push Server Image
-        uses: vladi2703/docker-build-scan-publish@main
+        uses: vladi2703/docker-build-scan-publish@upload-trivy-output
         with:
           dockerfile: 'server/Dockerfile'
           image-name: 'vladisto100/tic-tac-toe:server'
@@ -50,7 +50,7 @@ jobs:
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
       - name: Build, Scan, and Push Client Image
-        uses: vladi2703/docker-build-scan-publish@main
+        uses: vladi2703/docker-build-scan-publish@upload-trivy-output
         with:
           dockerfile: 'client/Dockerfile'
           image-name: 'vladisto100/tic-tac-toe:client'
@@ -72,7 +72,7 @@ jobs:
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
       - name: Build, Scan, and Push Client Terminal Image
-        uses: vladi2703/docker-build-scan-publish@main
+        uses: vladi2703/docker-build-scan-publish@upload-trivy-output
         with:
           dockerfile: 'client-terminal/Dockerfile'
           image-name: 'vladisto100/tic-tac-toe:client-terminal'
