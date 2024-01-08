@@ -138,6 +138,32 @@ Keep in mind that in order to merge to the master branch all checks should be pa
 
 **You have and idea for improvement? Open Github [issue](https://github.com/vladi2703/Tic-Tac-Toe/issues)!**
 
+## Kubernetes 
+
+### Players deployment 
+A Kubernetes configuration file defines two separate deployments for a tic-tac-toe application, specifically for two different players: `player1` and `player2`. 
+
+#### **Deployments - tic-tac-toe-player1/2**
+   Deploys Container from Docker image `vladisto100/tic-tac-toe-client:latest`
+
+
+#### Purpose of These Deployments
+- These deployments are designed to run two instances of a tic-tac-toe client, each representing a different player in the game. 
+- By separating them into different deployments, they can be managed, scaled, and updated independently, even though they use the same underlying Docker image.
+- Additional configurations such as environment variables, volume mounts, or resource limits can be added under the `containers` section to tailor the deployments to specific requirements. 
+
+This Kubernetes configuration consists of two parts: a `Deployment` and a `Service` for the `tic-tac-toe-server`. Here's a breakdown of what each part does:
+
+### Server Deployment
+
+Another Kubernetes configuration defines a deployment for the server from the latest server image. The container is configured to expose port 9999, which is the port the server application inside the container listens on.
+
+#### Purpose and Functionality
+
+- The `Deployment` ensures that the `tic-tac-toe-server` application is always running with the specified number of replicas, providing reliability and facilitating updates or rollbacks.
+- The `Service` provides a stable endpoint for accessing the `tic-tac-toe-server`. Even if the underlying pods change, the service ensures that the application remains accessible at the same address and port.
+- This configuration is particularly useful for allowing the `tic-tac-toe` clients or other services to communicate with the server consistently, regardless of the internal state of the pods.
+
 
 This project is licensed under the [MIT License](LICENSE).
 
