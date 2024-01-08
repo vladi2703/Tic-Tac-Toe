@@ -6,9 +6,11 @@
 ## Installing Packages
 
 - Install the following package dependencies using pip:
+
 ```bash
 pip install pygame
 ```
+
 ---
 
 ## How to Play?
