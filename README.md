@@ -110,6 +110,13 @@ A GitHub Actions pipeline, named "Docker Image CI", is designed to automatically
 
 The pipline builds and pushes server and client images.  Utilizes the docker/build-push-action to build a Docker image from the server/Dockerfile and push it to Docker Hub. The image is tagged with both the extracted **version tag** and as **'latest'**.
 
+## SQL
+
+A GitHub Actions workflow, named "Database Delta Test", is triggered on every push that modifies files in the `sql` directory. It consists of a single job named `database_test` that tests database migrations using Flyway.
+
+1. **Job Setup**: The job sets up a PostgreSQL service using the official PostgreSQL Docker image. The database, user, and password are set through environment variables. The service is configured to check its health every 10 seconds, with a timeout of 5 seconds and up to 5 retries.
+
+2. **Run Flyway**: This step uses the `joshuaavalon/flyway-action@v3.0.0` action to run Flyway migrations against the PostgreSQL service. The database URL, user, and password are provided as inputs to the action.
 
 ## Contributing
 
@@ -133,8 +140,6 @@ Keep in mind that in order to merge to the master branch all checks should be pa
 
 
 This project is licensed under the [MIT License](LICENSE).
-
-- спомени защо пайплайна за докер се копи пействат джобовете - може и на стъпки, но при по-тежки контейнери ще е по-бавно
 
 - add sql
 - add sonar
