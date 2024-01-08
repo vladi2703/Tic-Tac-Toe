@@ -4,12 +4,11 @@ on:
   push:
     branches:
       - master 
-      - kubernetes
-    # paths:
-    #   - 'k8s/*.yaml'
+    paths:
+      - 'k8s/*.yaml'
 
 jobs:
-  deploy:
+  deploy-and-verify:
     runs-on: ubuntu-latest
     steps:
     - name: Check out the code
