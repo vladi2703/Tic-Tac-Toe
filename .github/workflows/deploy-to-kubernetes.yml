@@ -20,9 +20,6 @@ jobs:
       run: |
         kubectl apply -f k8s/player-deployment.yaml
         kubectl apply -f k8s/server-deployment.yaml
-  deploy-verification:
-    runs-on: ubuntu-latest
-    steps:
     - name: Verify deployment
       run: |
             kubectl get deployments
