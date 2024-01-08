@@ -15,14 +15,6 @@ jobs:
     - name: Check out the code
       uses: actions/checkout@v2
 
-    - name: Set up Kubernetes context
-      # Replace this with the action that suits how you access your Kubernetes cluster.
-      # For example, if you're using a cloud provider, use their specific setup action.
-      uses: azure/k8s-set-context@v1
-      with:
-        method: kubeconfig
-        kubeconfig: ${{ secrets.KUBECONFIG }}
-
     - name: Apply Kubernetes configurations
       run: |
         kubectl apply -f k8s/player-deployment.yaml
