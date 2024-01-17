@@ -166,12 +166,3 @@ Another Kubernetes configuration defines a deployment for the server from the la
 
 
 This project is licensed under the [MIT License](LICENSE).
-
-- add sql
-- add sonar
-- add snyk
-  - added open source license check
-- add docker-compose
-- add kubernetes
-- add s3
-- add terraform
