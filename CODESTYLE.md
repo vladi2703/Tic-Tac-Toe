@@ -31,3 +31,7 @@ Pre-commit is a tool that checks your code for any errors or discrepancies befor
 3. Run `pre-commit install` to set up the git hook scripts.
 
 Now, every time you commit your code, the pre-commit hook will run and check your code for any style or formatting issues. If any issues are found, the commit will be aborted, and you will be shown what issues were found.
+
+## Markdown formatting 
+
+For markdown formatting we are currently using prettier. If there are some unformatted files, they are automatically formatted and commited, since the changes from formatter will never change the output of the `md` files. 
