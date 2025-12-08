@@ -1,4 +1,4 @@
-FROM python:3.9 AS builder
+FROM python:3.14.1 AS builder
 
 RUN apt-get update && apt-get install --no-install-recommends -y \
     python3-dev \
@@ -13,7 +13,7 @@ RUN pip3 install --upgrade pip \
     && pip3 install --no-cache-dir --prefix="/install" -r /build/requirements.txt
 
 # RUNTIME 
-FROM python:3.9 AS release
+FROM python:3.14.1 AS release
 RUN useradd -ms /bin/bash nonroot
 USER nonroot 
 
