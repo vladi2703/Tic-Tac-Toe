@@ -17,6 +17,7 @@ jobs:
     - name: Install dependencies
       run: |
         pip install flake8 pylint black pytest
+        pip install -r client/requirements.txt
 
     - name: Run flake8
       run: |
