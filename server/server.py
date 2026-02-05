@@ -1,8 +1,10 @@
+from __future__ import annotations
+
 import socket
 import time
 
 s = socket.socket()
-host = ""
+host = ''
 port = 9999
 matrix = [[0, 0, 0], [0, 0, 0], [0, 0, 0]]
 # print(matrix)
@@ -10,8 +12,8 @@ matrix = [[0, 0, 0], [0, 0, 0], [0, 0, 0]]
 playerOne = 1
 playerTwo = 2
 
-playerConn = list()
-playerAddr = list()
+playerConn: list = list()
+playerAddr: list = list()
 
 # server side validation is disabled to reduce latency
 """
@@ -38,18 +40,18 @@ def get_input(currentPlayer):
     print(player)
     send_common_msg(player)
     try:
-        conn.send("Input".encode())
+        conn.send(b'Input')
         data = conn.recv(2048 * 10)
         conn.settimeout(20)
-        dataDecoded = data.decode().split(",")
+        dataDecoded = data.decode().split(',')
         x = int(dataDecoded[0])
         y = int(dataDecoded[1])
         matrix[x][y] = currentPlayer
-        send_common_msg("Matrix")
+        send_common_msg('Matrix')
         send_common_msg(str(matrix))
     except Exception as e:
-        conn.send("Error".encode())
-        print("Error occurred! Try again..")
+        conn.send(b'Error')
+        print('Error occurred! Try again..')
         print(e)
 
 
@@ -103,11 +105,11 @@ def start_server():
     # Only two clients can connect
     try:
         s.bind((host, port))
-        print("Tic Tac Toe server started \nBinding to port", port)
+        print('Tic Tac Toe server started \nBinding to port', port)
         s.listen(2)
         accept_players()
-    except socket.error as e:
-        print("Server binding error:", e)
+    except OSError as e:
+        print('Server binding error:', e)
 
 
 # Accept player
@@ -116,22 +118,22 @@ def accept_players():
     try:
         for i in range(2):
             conn, addr = s.accept()
-            msg = "<<< You are player {} >>>".format(i + 1)
+            msg = f'<<< You are player {i + 1} >>>'
             conn.send(msg.encode())
 
             playerConn.append(conn)
             playerAddr.append(addr)
-            print("Player {} - [{}:{}]".format(i + 1, addr[0], str(addr[1])))
+            print(f'Player {i + 1} - [{addr[0]}:{str(addr[1])}]')
 
         start_game()
         s.close()
-    except socket.error as e:
-        print("Player connection error", e)
+    except OSError as e:
+        print('Player connection error', e)
     except KeyboardInterrupt:
-        print("\nKeyboard Interrupt")
+        print('\nKeyboard Interrupt')
         exit()
     except Exception as e:
-        print("Error occurred:", e)
+        print('Error occurred:', e)
 
 
 def start_game():
@@ -146,14 +148,14 @@ def start_game():
         i = i + 1
         # print("Current count", i ,result == 0 and i < 9, "Result = ", result)
 
-    send_common_msg("Over")
+    send_common_msg('Over')
 
     if result == 1:
-        lastmsg = "Player One is the winner!!"
+        lastmsg = 'Player One is the winner!!'
     elif result == 2:
-        lastmsg = "Player Two is the winner!!"
+        lastmsg = 'Player Two is the winner!!'
     else:
-        lastmsg = "Draw game!! Try again later!"
+        lastmsg = 'Draw game!! Try again later!'
 
     send_common_msg(lastmsg)
     time.sleep(10)
