@@ -12,10 +12,10 @@ COPY client/requirements.txt .
 RUN pip3 install --upgrade pip \
     && pip3 install --no-cache-dir --prefix="/install" -r /build/requirements.txt
 
-# RUNTIME 
+# RUNTIME
 FROM python:3.9 AS release
 RUN useradd -ms /bin/bash nonroot
-USER nonroot 
+USER nonroot
 
 WORKDIR /usr/src/app
 

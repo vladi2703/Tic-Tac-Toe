@@ -1,15 +1,18 @@
-import pygame
+from __future__ import annotations
+
 import socket
-import time
-import threading
 import sys
+import threading
+import time
+
+import pygame
 
 s = socket.socket()
 
 if len(sys.argv) > 1:
     host = sys.argv[1]
 else:
-    host = "localhost"
+    host = 'localhost'
 
 port = 9999
 
@@ -17,8 +20,8 @@ playerOne = 1
 playerOneColor = (255, 0, 0)
 playerTwo = 2
 playerTwoColor = (0, 0, 255)
-bottomMsg = ""
-msg = "Waiting for peer"
+bottomMsg = ''
+msg = 'Waiting for peer'
 currentPlayer = 0
 xy = (-1, -1)
 allow = 0  # allow handling mouse events
@@ -40,15 +43,15 @@ height = 550
 screen = pygame.display.set_mode((width, height))
 
 # set title
-pygame.display.set_caption("Tic Tac Toe")
+pygame.display.set_caption('Tic Tac Toe')
 
 # set icon
-icon = pygame.image.load("images/tictactoe.png")
+icon = pygame.image.load('images/tictactoe.png')
 pygame.display.set_icon(icon)
 
 # fonts
-bigfont = pygame.font.Font("freesansbold.ttf", 64)
-smallfont = pygame.font.Font("freesansbold.ttf", 32)
+bigfont = pygame.font.Font('freesansbold.ttf', 64)
+smallfont = pygame.font.Font('freesansbold.ttf', 32)
 backgroundColor = (255, 255, 255)
 titleColor = (0, 0, 0)
 subtitleColor = (128, 0, 255)
@@ -57,9 +60,9 @@ lineColor = (0, 0, 0)
 
 def buildScreen(bottomMsg, string, playerColor=subtitleColor):
     screen.fill(backgroundColor)
-    if "One" in string or "1" in string:
+    if 'One' in string or '1' in string:
         playerColor = playerOneColor
-    elif "Two" in string or "2" in string:
+    elif 'Two' in string or '2' in string:
         playerColor = playerTwoColor
 
     # vertical lines
@@ -69,7 +72,7 @@ def buildScreen(bottomMsg, string, playerColor=subtitleColor):
     pygame.draw.line(screen, lineColor, (150, 250 - 2), (450, 250 - 2), 4)
     pygame.draw.line(screen, lineColor, (150, 350 - 2), (450, 350 - 2), 4)
 
-    title = bigfont.render("TIC TAC TOE", True, titleColor)
+    title = bigfont.render('TIC TAC TOE', True, titleColor)
     screen.blit(title, (110, 0))
     subtitle = smallfont.render(str.upper(string), True, playerColor)
     screen.blit(subtitle, (150, 70))
@@ -79,9 +82,9 @@ def buildScreen(bottomMsg, string, playerColor=subtitleColor):
 def centerMessage(msg, color=titleColor):
     pos = (100, 480)
     # screen.fill(backgroundColor)
-    if "One" in msg or "1" in msg:
+    if 'One' in msg or '1' in msg:
         color = playerOneColor
-    elif "Two" in msg or "2" in msg:
+    elif 'Two' in msg or '2' in msg:
         color = playerTwoColor
     msgRendered = smallfont.render(msg, True, color)
     screen.blit(msgRendered, pos)
@@ -99,23 +102,23 @@ def printMatrix(matrix):
         for j in range(3):
             # When col increases, x changes
             x = int((j + 1.75) * 100)
-            current = " "
+            current = ' '
             color = titleColor
             if matrix[i][j] == playerOne:
-                current = "X"
+                current = 'X'
                 color = playerOneColor
             elif matrix[i][j] == playerTwo:
-                current = "O"
+                current = 'O'
                 color = playerTwoColor
             printCurrent(current, (x, y), color)
 
 
 def validate_input(x, y):
     if x > 3 or y > 3:
-        print("\nOut of bound! Enter again...\n")
+        print('\nOut of bound! Enter again...\n')
         return False
     elif matrix[x][y] != 0:
-        print("\nAlready entered! Try again...\n")
+        print('\nAlready entered! Try again...\n')
         return False
     return True
 
@@ -123,7 +126,6 @@ def validate_input(x, y):
 def handleMouseEvent(pos):
     x = pos[0]
     y = pos[1]
-    global currentPlayer
     global xy
     if x < 150 or x > 450 or y < 150 or y > 450:
         xy = (-1, -1)
@@ -132,7 +134,7 @@ def handleMouseEvent(pos):
         col = int(x / 100 - 1.5)
         # When y increases, row changes
         row = int(y / 100 - 1.5)
-        print("({}, {})".format(row, col))
+        print(f'({row}, {col})')
         if validate_input(row, col):
             matrix[row][col] = currentPlayer
             xy = (row, col)
@@ -143,24 +145,21 @@ def start_player():
     global bottomMsg
     try:
         s.connect((host, port))
-        print("Connected to :", host, ":", port)
+        print('Connected to :', host, ':', port)
         recvData = s.recv(2048 * 10)
         bottomMsg = recvData.decode()
-        if "1" in bottomMsg:
+        if '1' in bottomMsg:
             currentPlayer = 1
         else:
             currentPlayer = 2
         start_game()
         s.close()
-    except socket.error as e:
-        print("Socket connection error:", e)
+    except OSError as e:
+        print('Socket connection error:', e)
 
 
 def start_game():
     running = True
-    global msg
-    global matrix
-    global bottomMsg
     create_thread(accept_msg)
     while running:
         for event in pygame.event.get():
@@ -171,7 +170,7 @@ def start_game():
                 if allow:
                     handleMouseEvent(pos)
 
-        if msg == "":
+        if msg == '':
             break
 
         buildScreen(bottomMsg, msg)
@@ -191,45 +190,45 @@ def accept_msg():
             recvDataDecode = recvData.decode()
             buildScreen(bottomMsg, recvDataDecode)
 
-            if recvDataDecode == "Input":
+            if recvDataDecode == 'Input':
                 failed = 1
                 allow = 1
                 xy = (-1, -1)
                 while failed:
                     try:
                         if xy != (-1, -1):
-                            coordinates = str(xy[0]) + "," + str(xy[1])
+                            coordinates = str(xy[0]) + ',' + str(xy[1])
                             s.send(coordinates.encode())
                             failed = 0
                             allow = 0
                     except Exception as e:
-                        print("Error occurred: ", e)
+                        print('Error occurred: ', e)
 
-            elif recvDataDecode == "Error":
-                print("Error occured! Try again..")
+            elif recvDataDecode == 'Error':
+                print('Error occured! Try again..')
 
-            elif recvDataDecode == "Matrix":
+            elif recvDataDecode == 'Matrix':
                 print(recvDataDecode)
                 matrixRecv = s.recv(2048 * 100)
-                matrixRecvDecoded = matrixRecv.decode("utf-8")
+                matrixRecvDecoded = matrixRecv.decode('utf-8')
                 matrix = eval(matrixRecvDecoded)
 
-            elif recvDataDecode == "Over":
+            elif recvDataDecode == 'Over':
                 msgRecv = s.recv(2048 * 100)
-                msgRecvDecoded = msgRecv.decode("utf-8")
+                msgRecvDecoded = msgRecv.decode('utf-8')
                 bottomMsg = msgRecvDecoded
-                msg = "~~~Game Over~~~"
+                msg = '~~~Game Over~~~'
                 break
             else:
                 msg = recvDataDecode
 
         except KeyboardInterrupt:
-            print("\nKeyboard Interrupt")
+            print('\nKeyboard Interrupt')
             time.sleep(1)
             break
 
         except Exception as e:
-            print("Error occurred:", e)
+            print('Error occurred:', e)
             break
 
 
