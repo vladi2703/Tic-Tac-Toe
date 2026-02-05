@@ -47,13 +47,13 @@ Each component is containerized and managed independently.
 
 The `docker-compose.yml` file defines a multi-container Docker application for a Tic-Tac-Toe game. The application consists of three services: `server`, `player1`, and `player2`.
 
-1. **Server Service**: This service builds the Docker image for the server from the Dockerfile located in the `./server` directory. 
+1. **Server Service**: This service builds the Docker image for the server from the Dockerfile located in the `./server` directory.
 
 2. **Players 1/2 Service**: These services build the Docker image for the players' client from the Dockerfile located in the `./client` directory. It uses the host's display settings for the client's display. It also mounts the host's X11 Unix socket to the container's X11 Unix socket, allowing the client to display a GUI on the host's display. The container is named `tic-tac-toe-player1/2` and uses the host's network stack for networking.
 
 In summary, this Docker setup allows you to run a Tic-Tac-Toe game with two players on the same host machine. The server and each client run in their own Docker containers, and the clients display their GUIs on the host's display.
 
-A GitHub Actions pipeline, named "Docker Build, Scan and Publish", is triggered on every push or pull request to the `master` branch. 
+A GitHub Actions pipeline, named "Docker Build, Scan and Publish", is triggered on every push or pull request to the `master` branch.
 
 ## CI/CD
 
@@ -68,9 +68,9 @@ Multiple security scans are being run on merge request and each time the `master
 
 #### Snyk-Security Job
 
- This job performs a security scan on the Snyk, a tool that finds and fixes vulnerabilities in dependencies. It installs Snyk, authenticates with a token, and then runs a test to find critical severity issues, excluding Docker-related files. Snyk security runs are also being run using the web application. 
+ This job performs a security scan on the Snyk, a tool that finds and fixes vulnerabilities in dependencies. It installs Snyk, authenticates with a token, and then runs a test to find critical severity issues, excluding Docker-related files. Snyk security runs are also being run using the web application.
 
-#### Gitleaks Job 
+#### Gitleaks Job
 
 This job checks for secrets leakage in the repository using Gitleaks, a tool that detects hardcoded secrets like passwords, API keys, and tokens in git repositories. It fetches the entire git history for thorough scanning.
 
@@ -78,7 +78,7 @@ This job checks for secrets leakage in the repository using Gitleaks, a tool tha
 
 There's also a commented-out job for SonarCloud, a cloud-based code quality and security service. Currently the web application SonarCloud executes scans. If enabled, it would scan the codebase for code smells, bugs, and security vulnerabilities **as part of the pipeline**.
 
-#### [Docker image security](#docker-build-scan-publish-composite-action) 
+#### [Docker image security](#docker-build-scan-publish-composite-action)
 
 ### Docker
 
@@ -104,9 +104,9 @@ The action has five required inputs:
 4. `dockerhub-token`: The DockerHub token used to authenticate the push.
 5. `github-sha`: The GitHub SHA used for tagging the image.
 
-### Docker images release 
+### Docker images release
 
-A GitHub Actions pipeline, named "Docker Image CI", is designed to automatically build and push Docker images to Docker Hub whenever there are pushes to the master branch or when a new tag that starts with 'v' (indicating a version) is created in the repository. 
+A GitHub Actions pipeline, named "Docker Image CI", is designed to automatically build and push Docker images to Docker Hub whenever there are pushes to the master branch or when a new tag that starts with 'v' (indicating a version) is created in the repository.
 
 The pipline builds and pushes server and client images.  Utilizes the docker/build-push-action to build a Docker image from the server/Dockerfile and push it to Docker Hub. The image is tagged with both the extracted **version tag** and as **'latest'**.
 
@@ -120,7 +120,7 @@ A GitHub Actions workflow, named "Database Delta Test", is triggered on every pu
 
 ## Contributing
 
-Contributions to the Tic-Tac-Toe Dockerized application are welcome. Please read our [contributing guidelines](CODESTYLE.md) and submit pull requests to the repository.  
+Contributions to the Tic-Tac-Toe Dockerized application are welcome. Please read our [contributing guidelines](CODESTYLE.md) and submit pull requests to the repository.
 
 ### Merging strategy
 
@@ -138,19 +138,19 @@ Keep in mind that in order to merge to the master branch all checks should be pa
 
 **You have and idea for improvement? Open Github [issue](https://github.com/vladi2703/Tic-Tac-Toe/issues)!**
 
-## Kubernetes 
+## Kubernetes
 
-### Players deployment 
-A Kubernetes configuration file defines two separate deployments for a tic-tac-toe application, specifically for two different players: `player1` and `player2`. 
+### Players deployment
+A Kubernetes configuration file defines two separate deployments for a tic-tac-toe application, specifically for two different players: `player1` and `player2`.
 
 #### **Deployments - tic-tac-toe-player1/2**
    Deploys Container from Docker image `vladisto100/tic-tac-toe-client:latest`
 
 
 #### Purpose of These Deployments
-- These deployments are designed to run two instances of a tic-tac-toe client, each representing a different player in the game. 
+- These deployments are designed to run two instances of a tic-tac-toe client, each representing a different player in the game.
 - By separating them into different deployments, they can be managed, scaled, and updated independently, even though they use the same underlying Docker image.
-- Additional configurations such as environment variables, volume mounts, or resource limits can be added under the `containers` section to tailor the deployments to specific requirements. 
+- Additional configurations such as environment variables, volume mounts, or resource limits can be added under the `containers` section to tailor the deployments to specific requirements.
 
 This Kubernetes configuration consists of two parts: a `Deployment` and a `Service` for the `tic-tac-toe-server`. Here's a breakdown of what each part does:
 

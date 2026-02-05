@@ -16,7 +16,7 @@ jobs:
 
     - name: Install dependencies
       run: |
-        pip install flake8 pylint black
+        pip install flake8 pylint black pytest
 
     - name: Run flake8
       run: |
