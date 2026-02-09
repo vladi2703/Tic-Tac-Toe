@@ -8,7 +8,7 @@ s = socket.socket()
 if len(sys.argv) > 1:
     host = sys.argv[1]
 else:
-    host = 'localhost'
+    host = "localhost"
 port = 9999
 
 
@@ -16,30 +16,30 @@ def print_matrix(matrix):
     # print(matrix)
     for i in range(3):
         for j in range(3):
-            current = '_'
+            current = "_"
             if matrix[i][j] == 1:
-                current = 'X'
+                current = "X"
             elif matrix[i][j] == 2:
-                current = 'O'
-            print(current, end='\t')
-        print('')
+                current = "O"
+            print(current, end="\t")
+        print("")
 
 
 def start_player():
     try:
         s.connect((host, port))
-        print('Connected to :', host, ':', port)
+        print("Connected to :", host, ":", port)
         start_game()
         s.close()
     except OSError as e:
-        print('Socket connection error:', e)
+        print("Socket connection error:", e)
 
 
 def start_game():
     welcome = s.recv(2048 * 10)
     print(welcome.decode())
 
-    name = input('Enter Player name:')
+    name = input("Enter Player name:")
     s.send(name.encode())
 
     while True:
@@ -47,35 +47,35 @@ def start_game():
             recvData = s.recv(2048 * 10)
             recvDataDecode = recvData.decode()
 
-            if recvDataDecode == 'Input':
+            if recvDataDecode == "Input":
                 failed = 1
                 while failed:
                     try:
-                        x = int(input('Enter the x coordinate:'))
-                        y = int(input('Enter the y coordinate:'))
-                        coordinates = str(x) + ',' + str(y)
+                        x = int(input("Enter the x coordinate:"))
+                        y = int(input("Enter the y coordinate:"))
+                        coordinates = str(x) + "," + str(y)
                         s.send(coordinates.encode())
                         failed = 0
                     except ValueError:
-                        print('Error occurred....Try again')
+                        print("Error occurred....Try again")
 
-            elif recvDataDecode == 'Error':
-                print('Error occured! Try again..')
+            elif recvDataDecode == "Error":
+                print("Error occured! Try again..")
 
-            elif recvDataDecode == 'Matrix':
+            elif recvDataDecode == "Matrix":
                 print(recvDataDecode)
                 matrixRecv = s.recv(2048 * 100)
-                matrixRecvDecoded = matrixRecv.decode('utf-8')
+                matrixRecvDecoded = matrixRecv.decode("utf-8")
                 print_matrix(eval(matrixRecvDecoded))
 
-            elif recvDataDecode == '':
+            elif recvDataDecode == "":
                 time.sleep(10)
                 break
 
             else:
                 print(recvDataDecode)
         except KeyboardInterrupt:
-            print('\nKeyboard Interrupt')
+            print("\nKeyboard Interrupt")
             time.sleep(1)
             break
 
